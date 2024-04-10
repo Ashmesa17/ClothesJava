@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  app_java:
+    container_name: app_java
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL = jdbc:postgresql://dbpg_java:5432/dbjava
+      - DATABASE_USERNAME = postgres
+      - DATABASE_PASSWORD = postgres
+    depends_on:
+      - dbpg_java
+      
+  dbpg_java:
+    container_name: dbpg_java
+    image: postgres:15
+    ports:
+      - "5431:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dbjava
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
